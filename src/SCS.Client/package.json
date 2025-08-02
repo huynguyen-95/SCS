@@ -27,7 +27,6 @@
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
     "@types/core-js": "^2.5.8",
-    "@videogular/ngx-videogular": "^10.0.1",
     "hls.js": "^1.6.7",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

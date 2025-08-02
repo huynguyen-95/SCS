@@ -27,11 +27,10 @@
               }
             ],
             "styles": [
-              "src/styles.scss",
-              "node_modules/@videogular/ngx-videogular/fonts/videogular.css"
+              "src/styles.scss"
             ],
             "scripts": [
-               "node_modules/hls.js/dist/hls.min.js"
+              "node_modules/hls.js/dist/hls.min.js"
             ]
           },
           "configurations": {
