@@ -1,0 +1,8 @@
+{
+    "explorer.compactFolders": true,
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*.ts": "${capture}.html, ${capture}.scss, ${capture}.spec.ts"
+    },
+    "editor.formatOnSave": true
+}
