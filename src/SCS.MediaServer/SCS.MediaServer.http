@@ -1,0 +1,11 @@
+@SCS.MediaServer_HostAddress = http://localhost:5050
+
+GET {{SCS.MediaServer_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{SCS.MediaServer_HostAddress}}/todos/1
+Accept: application/json
+
+###
