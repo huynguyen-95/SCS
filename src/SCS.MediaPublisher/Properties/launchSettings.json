@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SCS.MediaPublisher": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
