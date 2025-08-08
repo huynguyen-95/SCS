@@ -37,7 +37,7 @@ public class UploadFileService : IUploadFileService
             await _s3Client.PutObjectAsync(new Amazon.S3.Model.PutObjectRequest
             {
                 BucketName = _bucketName,
-                Key = key,
+                Key = key.Replace('\\', '/'), // Ensure the key uses forward slashes
                 InputStream = fileStream
             });
         }
