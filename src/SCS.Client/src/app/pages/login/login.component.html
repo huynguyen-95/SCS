@@ -1,0 +1,28 @@
+<div class="login-container">
+  <div class="login-form">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="empNo"><b>Employee No</b></label>
+        <input
+          type="text"
+          id="empNo"
+          formControlName="empNo"
+          placeholder="Enter your employee number"
+        />
+        <div
+          class="error-message"
+          *ngIf="loginForm.get('empNo')?.errors?.['required'] && loginForm.get('empNo')?.touched"
+        >
+          Employee No is required.
+        </div>
+        <div
+          class="error-message"
+          *ngIf="loginForm.get('empNo')?.errors?.['pattern'] && loginForm.get('empNo')?.touched"
+        >
+          Employee No is invalid. It should be a 8-digit number starting with a non-zero digit.
+        </div>
+      </div>
+      <button type="submit" [disabled]="!loginForm.valid">Login</button>
+    </form>
+  </div>
+</div>

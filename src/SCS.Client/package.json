@@ -20,14 +20,17 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^20.1.6",
     "@angular/common": "^20.1.0",
     "@angular/compiler": "^20.1.0",
     "@angular/core": "^20.1.0",
     "@angular/forms": "^20.1.0",
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
+    "@primeuix/themes": "^1.2.3",
     "@types/core-js": "^2.5.8",
     "hls.js": "^1.6.7",
+    "primeng": "^20.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

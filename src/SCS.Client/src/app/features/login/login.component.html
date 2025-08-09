@@ -1,0 +1,23 @@
+<div class="login-container">
+  <div class="login-form">
+    <h2>Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="empNo">Employee Number</label>
+        <input
+          type="text"
+          id="empNo"
+          formControlName="empNo"
+          placeholder="Enter your employee number"
+        />
+        <div
+          class="error-message"
+          *ngIf="loginForm.get('empNo')?.errors?.['required'] && loginForm.get('empNo')?.touched"
+        >
+          Employee number is required
+        </div>
+      </div>
+      <button type="submit" [disabled]="!loginForm.valid">Login</button>
+    </form>
+  </div>
+</div>
