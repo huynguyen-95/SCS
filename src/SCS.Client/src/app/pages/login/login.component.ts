@@ -6,13 +6,24 @@ import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
+import { ToastModule } from 'primeng/toast';
+import { firstValueFrom } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss'],
 	standalone: true,
-	imports: [CommonModule, ReactiveFormsModule, CardModule, PasswordModule, CheckboxModule]
+	imports: [
+		CommonModule,
+		ReactiveFormsModule,
+		CardModule,
+		PasswordModule,
+		CheckboxModule,
+		ToastModule
+	],
+	providers: [MessageService]
 })
 export class LoginComponent {
 	loginForm: FormGroup;
@@ -20,6 +31,7 @@ export class LoginComponent {
 	constructor(
 		private formBuilder: FormBuilder,
 		private authService: AuthService,
+		private messageService: MessageService,
 		private router: Router
 	) {
 		this.loginForm = this.formBuilder.group({
@@ -33,9 +45,20 @@ export class LoginComponent {
 		});
 	}
 
-	onSubmit(): void {
+	async onSubmit(): Promise<void> {
 		if (this.loginForm.invalid) {
 			return;
+		}
+
+		try {
+			const empNo = this.loginForm.get('empNo')?.value;
+			await firstValueFrom(this.authService.login(empNo));
+			// Login successful
+			this.router.navigate(['/']);
+			this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Login successfully!' });
+		} catch (error: any) {
+			// Handle error here
+			this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Wrong user emp-no' });
 		}
 	}
 }

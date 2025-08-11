@@ -65,7 +65,7 @@ public static class Login
         private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
 
         private IEnumerable<Domain.User> _users = [
-            new Domain.User("88907299", "Huy")
+            new Domain.User("88907299", "Huy", true)
         ];
 
         public Task<ErrorOr<AuthenticationResponse>> Handle(Command request, CancellationToken cancellationToken)
