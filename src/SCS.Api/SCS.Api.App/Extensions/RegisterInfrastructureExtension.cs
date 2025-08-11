@@ -1,12 +1,17 @@
 using System.Reflection;
 using SCS.Api.App.Abstraction.Messaging;
+using SCS.Api.App.Features.Authentication;
 
 namespace SCS.Api.App.Extensions;
 
 public static class RegisterInfrastructureExtension
 {
-    public static void ConfigureInfrastructure(this IServiceCollection services)
+    public static void ConfigureInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        // Configure JWT
+        services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
+        services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+
         RegisterRequestHandlers(services);
     }
 

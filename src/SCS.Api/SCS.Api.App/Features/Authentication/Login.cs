@@ -31,16 +31,23 @@ public static class Login
 
         private async Task<IResult> HandleAsync(
             [FromBody] Command command,
-            IRequestHandler<Command, ErrorOr<Unit>> handler,
+            IRequestHandler<Command, ErrorOr<AuthenticationResponse>> handler,
             CancellationToken cancellationToken)
         {
             var result = await handler.Handle(command, cancellationToken);
 
-            return result.IsError ? Results.BadRequest() : Results.Ok();
+            if (result.IsError)
+            {
+                return Results.BadRequest(result.FirstError);
+            }
+
+            return Results.Ok(result.Value);
         }
     }
 
-    public record Command(string EmpNo) : IRequest<ErrorOr<Unit>>;
+    public record Command(string EmpNo) : IRequest<ErrorOr<AuthenticationResponse>>;
+
+    public record AuthenticationResponse(string Token);
 
     public class Validator : AbstractValidator<Command>
     {
@@ -52,29 +59,33 @@ public static class Login
         }
     }
 
-    public sealed class Handler(IValidator<Command> validator) : IRequestHandler<Command, ErrorOr<Unit>>
+    public sealed class Handler(IValidator<Command> validator, IJwtTokenGenerator jwtTokenGenerator) : IRequestHandler<Command, ErrorOr<AuthenticationResponse>>
     {
         private readonly IValidator<Command> _validator = validator;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
 
         private IEnumerable<Domain.User> _users = [
-            new("88907299", "Huy")
+            new Domain.User("88907299", "Huy")
         ];
 
-        public async Task<ErrorOr<Unit>> Handle(Command request, CancellationToken cancellationToken)
+        public Task<ErrorOr<AuthenticationResponse>> Handle(Command request, CancellationToken cancellationToken)
         {
             var validationResult = _validator.Validate(request);
             if (!validationResult.IsValid)
             {
-                return Error.Validation("Login.Validation", validationResult.Errors.Select(e => e.ErrorMessage).FirstOrDefault() ?? "Validation failed.");
+                return Task.FromResult<ErrorOr<AuthenticationResponse>>(
+                    Error.Validation("Login.Validation", validationResult.Errors.Select(e => e.ErrorMessage).FirstOrDefault() ?? "Validation failed."));
             }
 
             var user = _users.FirstOrDefault(x => x.EmpNo == request.EmpNo);
             if (user == null)
             {
-                return Error.NotFound("Login.UserNotFound", "User not found.");
+                return Task.FromResult<ErrorOr<AuthenticationResponse>>(
+                    Error.NotFound("Login.UserNotFound", "User not found."));
             }
 
-            return Unit.Value;
+            var token = _jwtTokenGenerator.GenerateToken(user);
+            return Task.FromResult<ErrorOr<AuthenticationResponse>>(new AuthenticationResponse(token));
         }
     }
 }
