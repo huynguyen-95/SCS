@@ -21,7 +21,34 @@
                         <span *ngIf="sidebarVisible">Surveillance</span>
                     </a>
                 </li>
-                <!-- Add more menu items as needed -->
+                <li class="submenu-item">
+                    <a (click)="toggleSubmenu('premise')" [class.expanded]="isSubmenuExpanded('premise')">
+                        <i class="pi pi-building"></i>
+                        <span *ngIf="sidebarVisible">Premise</span>
+                        <i *ngIf="sidebarVisible" class="pi pi-chevron-down submenu-arrow"
+                            [class.rotate]="isSubmenuExpanded('premise')"></i>
+                    </a>
+                    <ul class="submenu" *ngIf="isSubmenuExpanded('premise') && sidebarVisible">
+                        <li>
+                            <a routerLink="/premise/1" routerLinkActive="active">
+                                <i class="pi pi-circle-fill"></i>
+                                <span>Premise 1</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/premise/2" routerLinkActive="active">
+                                <i class="pi pi-circle-fill"></i>
+                                <span>Premise 2</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/premise/3" routerLinkActive="active">
+                                <i class="pi pi-circle-fill"></i>
+                                <span>Premise 3</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </aside>
