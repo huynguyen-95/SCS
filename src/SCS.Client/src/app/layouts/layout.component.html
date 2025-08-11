@@ -10,15 +10,9 @@
         <nav class="sidebar-nav">
             <ul>
                 <li>
-                    <a routerLink="/dashboard" routerLinkActive="active">
+                    <a routerLink="/home" routerLinkActive="active">
                         <i class="pi pi-home"></i>
-                        <span *ngIf="sidebarVisible">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/surveillance" routerLinkActive="active">
-                        <i class="pi pi-video"></i>
-                        <span *ngIf="sidebarVisible">Surveillance</span>
+                        <span *ngIf="sidebarVisible">Home</span>
                     </a>
                 </li>
                 <li class="submenu-item">
@@ -61,6 +55,7 @@
                 <h2>Smart City Surveillance</h2>
             </div>
             <div class="header-right">
+                <span>Hi, {{user?.name ?? ''}}</span>
                 <button class="user-menu">
                     <i class="pi pi-user"></i>
                 </button>

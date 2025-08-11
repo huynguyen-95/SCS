@@ -2,17 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, tap, catchError, throwError } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 import environment from '../../env';
-
-interface LoginResponse {
-  token: string;
-  message?: string;
-}
-
-interface ErrorResponse {
-  message: string;
-  statusCode: number;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -37,18 +28,28 @@ export class AuthService {
     localStorage.removeItem(this.TOKEN_KEY);
   }
 
-  isAuthenticated(): boolean {
+  getUserInfo(): UserInfo | null {
     const token = this.getToken();
-    if (!token) return false;
+    if (!token) return null;
 
     try {
-      // Add your token validation logic here
-      // For now, just checking if token exists
-      return true;
+      return jwtDecode<UserInfo>(token);
     } catch {
       this.removeToken();
-      return false;
+      return null;
     }
+  }
+
+  isAuthenticated(): boolean {
+    const userInfo = this.getUserInfo();
+    if (!userInfo) return false;
+
+    return true;
+  }
+
+  hasRole(role: string): boolean {
+    const userInfo = this.getUserInfo();
+    return userInfo?.roles?.includes(role) || false;
   }
 
   login(empNo: string): Observable<LoginResponse> {
