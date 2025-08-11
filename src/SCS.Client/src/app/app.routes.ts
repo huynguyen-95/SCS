@@ -8,12 +8,18 @@ export const routes: Routes = [
   },
   {
     path: '',
+    loadComponent: () => import('./layouts/layout.component').then(m => m.LayoutComponent),
     canActivate: [authGuard],
     children: [
       {
         path: '',
-        loadComponent: () => import('./streaming-player/streaming-player').then(m => m.StreamingPlayer)
+        redirectTo: 'home',
+        pathMatch: 'full'
+      },
+      {
+        path: 'home',
+        loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
       }
     ]
-  }
+  },
 ];

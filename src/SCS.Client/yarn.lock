@@ -3751,6 +3751,11 @@ postcss@^8.4.49, postcss@^8.5.6:
     picocolors "^1.1.1"
     source-map-js "^1.2.1"
 
+primeicons@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-7.0.0.tgz#6b25c3fdcb29bb745a3035bdc1ed5902f4a419cf"
+  integrity sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw==
+
 primeng@^20.0.1:
   version "20.0.1"
   resolved "https://registry.yarnpkg.com/primeng/-/primeng-20.0.1.tgz#653a9c6a03279610aa8b2292885e648daae143a2"

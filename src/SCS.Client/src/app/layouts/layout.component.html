@@ -1,0 +1,48 @@
+<div class="layout-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar" [class.collapsed]="!sidebarVisible">
+        <div class="sidebar-header">
+            <h3>Smart City</h3>
+            <button class="toggle-btn" (click)="toggleSidebar()">
+                <i class="pi pi-bars"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a routerLink="/dashboard" routerLinkActive="active">
+                        <i class="pi pi-home"></i>
+                        <span *ngIf="sidebarVisible">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/surveillance" routerLinkActive="active">
+                        <i class="pi pi-video"></i>
+                        <span *ngIf="sidebarVisible">Surveillance</span>
+                    </a>
+                </li>
+                <!-- Add more menu items as needed -->
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h2>Smart City Surveillance</h2>
+            </div>
+            <div class="header-right">
+                <button class="user-menu">
+                    <i class="pi pi-user"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="content">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>
