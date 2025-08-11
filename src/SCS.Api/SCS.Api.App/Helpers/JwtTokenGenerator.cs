@@ -34,7 +34,7 @@ public class JwtTokenGenerator(IOptions<JwtSettings> jwtSettings) : IJwtTokenGen
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.EmpNo),
+            new Claim("emp-no", user.EmpNo),
             new Claim(JwtRegisteredClaimNames.Name, user.Username),
             new Claim("role", user.IsAdmin ? "Admin" : "SCS-User"),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
