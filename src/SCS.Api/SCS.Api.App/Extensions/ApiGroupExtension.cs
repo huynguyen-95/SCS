@@ -6,4 +6,10 @@ public static class ApiGroupExtension
         app.MapGroup("api/authentication")
             .WithTags("Authentication")
             .WithDisplayName("Authentication Endpoints");
+
+    public static RouteGroupBuilder PremiseGroup(this IEndpointRouteBuilder app) =>
+        app.MapGroup("api/premise")
+            .RequireAuthorization()
+            .WithTags("Premise")
+            .WithDisplayName("Premise Endpoints");
 }
