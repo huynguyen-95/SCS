@@ -1,8 +1,18 @@
 .premise-container {
+    display: flex;
+    justify-content: space-between;
     padding: 1rem;
 
     h1 {
         margin-bottom: 1rem;
         color: #2c3e50;
     }
+}
+
+::ng-deep .p-chip-icon.connected {
+    color: green;
+}
+
+::ng-deep .p-chip-icon.not-connected {
+    color: red;
 }

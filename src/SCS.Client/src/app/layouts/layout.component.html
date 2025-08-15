@@ -13,17 +13,27 @@
                 <li>
                     <a routerLink="/home" routerLinkActive="active">
                         <i class="pi pi-home"></i>
-                        <span *ngIf="sidebarVisible">Home</span>
+                        @if( sidebarVisible)
+                        {
+                        <span>Home</span>
+                        }
                     </a>
                 </li>
                 <li class="submenu-item">
                     <a (click)="toggleSubmenu('premise')" [class.expanded]="isSubmenuExpanded('premise')">
                         <i class="pi pi-building"></i>
-                        <span *ngIf="sidebarVisible">Premise</span>
-                        <i *ngIf="sidebarVisible" class="pi pi-chevron-down submenu-arrow"
-                            [class.rotate]="isSubmenuExpanded('premise')"></i>
+                        @if( sidebarVisible)
+                        {
+                        <span>Premise</span>
+                        }
+                        @if (sidebarVisible)
+                        {
+                        <i class="pi pi-chevron-down submenu-arrow" [class.rotate]="isSubmenuExpanded('premise')"></i>
+                        }
                     </a>
-                    <ul class="submenu" *ngIf="isSubmenuExpanded('premise') && sidebarVisible">
+                    @if (isSubmenuExpanded('premise') && sidebarVisible)
+                    {
+                    <ul class="submenu">
                         @for (premise of premises; track premise.id)
                         {
                         <li>
@@ -33,6 +43,7 @@
                         </li>
                         }
                     </ul>
+                    }
                 </li>
             </ul>
         </nav>

@@ -1,20 +1,21 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, WritableSignal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { AlarmSystemService } from '../../core/services/alarm-system.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { ChipModule } from 'primeng/chip';
 
 @Component({
     selector: 'app-premise',
     templateUrl: './premise.component.html',
     styleUrls: ['./premise.component.scss'],
     standalone: true,
-    imports: [CommonModule, ToastModule],
+    imports: [CommonModule, ToastModule, ChipModule],
 })
 export class PremiseComponent implements OnInit, OnDestroy {
     premiseId: number = 0;
-    isConnected: boolean = false;
+    isConnected: WritableSignal<boolean> = signal(false);
     connectionError: string | null = null;
 
     constructor(
@@ -44,7 +45,7 @@ export class PremiseComponent implements OnInit, OnDestroy {
 
             // Start SignalR connection with premise ID as groupId
             await this.alarmSystemService.startConnection(this.premiseId);
-            this.isConnected = this.alarmSystemService.isConnected();
+            this.isConnected.set(this.alarmSystemService.isConnected());
 
             // Register for alarm system events
             this.registerSignalREvents();
@@ -53,7 +54,7 @@ export class PremiseComponent implements OnInit, OnDestroy {
         } catch (error) {
             console.error('Failed to connect to SignalR:', error);
             this.connectionError = 'Failed to connect to real-time updates';
-            this.isConnected = false;
+            this.isConnected.set(false);
         }
     }
 

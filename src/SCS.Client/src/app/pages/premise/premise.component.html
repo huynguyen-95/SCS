@@ -1,3 +1,6 @@
 <div class="premise-container">
     <h1>Premise {{premiseId}}</h1>
+    <p-chip label="{{ isConnected() ? 'Connected' : 'Not Connected' }}"
+        icon="pi pi-circle-fill {{isConnected() ? 'connected' : 'not-connected'}}">
+    </p-chip>
 </div>
