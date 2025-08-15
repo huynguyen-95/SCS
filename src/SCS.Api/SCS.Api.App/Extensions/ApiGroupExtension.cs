@@ -12,4 +12,10 @@ public static class ApiGroupExtension
             .RequireAuthorization()
             .WithTags("Premise")
             .WithDisplayName("Premise Endpoints");
+
+    public static RouteGroupBuilder AlarmSystemGroup(this IEndpointRouteBuilder app) =>
+        app.MapGroup("api/alarm-system")
+            .RequireAuthorization()
+            .WithTags("Alarm System")
+            .WithDisplayName("Alarm System Endpoints");
 }

@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using SCS.Api.App.Extensions;
 using SCS.Api.App.Features.Authentication;
+using SCS.Api.App.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,7 @@ builder.Services.AddAuthentication(options =>
     });
 builder.Services.AddAuthorization();
 builder.Services.AddMemoryCache();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -62,5 +64,7 @@ app.UseCors(builder =>
 app.UseAuthentication();
 app.UseAuthorization();
 app.AddAppEndpoints();
+
+app.MapHub<AlarmSystemHub>("/hubs/alarm-system");
 
 app.Run();
