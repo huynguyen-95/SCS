@@ -9,6 +9,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { StyleClass } from 'primeng/styleclass';
 import { DrawerModule } from 'primeng/drawer';
 import { AuthService } from '../core/services/auth.service';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-layout',
@@ -16,14 +18,16 @@ import { AuthService } from '../core/services/auth.service';
     styleUrls: ['./layout.component.scss'],
     standalone: true,
     imports: [
+        ToastModule,
         CommonModule,
         RouterOutlet,
         RouterLink,
         RouterLinkActive
-    ]
+    ],
+    providers: [MessageService]
 })
 export class LayoutComponent implements OnInit {
-    sidebarVisible: boolean = false;
+    sidebarVisible: boolean = true;
     expandedMenus: { [key: string]: boolean } = {};
     user: UserInfo | null = null;
     premises: Premise[] = [];
