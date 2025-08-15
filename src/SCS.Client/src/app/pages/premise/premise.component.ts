@@ -5,18 +5,20 @@ import { AlarmSystemService } from '../../core/services/alarm-system.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ChipModule } from 'primeng/chip';
+import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
 @Component({
     selector: 'app-premise',
     templateUrl: './premise.component.html',
     styleUrls: ['./premise.component.scss'],
     standalone: true,
-    imports: [CommonModule, ToastModule, ChipModule],
+    imports: [CommonModule, ToastModule, ChipModule, OverlayBadgeModule],
 })
 export class PremiseComponent implements OnInit, OnDestroy {
     premiseId: number = 0;
     isConnected: WritableSignal<boolean> = signal(false);
     connectionError: string | null = null;
+    alertCount: WritableSignal<number> = signal(0);
 
     constructor(
         private route: ActivatedRoute,
@@ -62,6 +64,7 @@ export class PremiseComponent implements OnInit, OnDestroy {
         // Example event handlers - adjust based on your hub's methods
         this.alarmSystemService.onMethod('ReceiveAlert', (alarmData: any) => {
             this.messageService.add({ severity: 'error', summary: 'Alarm System', detail: alarmData });
+            this.alertCount.update(count => count + 1);
         });
     }
 }

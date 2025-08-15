@@ -1,6 +1,13 @@
 <div class="premise-container">
     <h1>Premise {{premiseId}}</h1>
-    <p-chip label="{{ isConnected() ? 'Connected' : 'Not Connected' }}"
-        icon="pi pi-circle-fill {{isConnected() ? 'connected' : 'not-connected'}}">
-    </p-chip>
+    <div style="display: flex; gap: 10px;">
+        <div class="icon-container">
+            <p-overlaybadge severity="danger" [value]="alertCount()">
+                <i class="pi pi-bell" style="font-size: 1.5rem;"></i>
+            </p-overlaybadge>
+        </div>
+        <p-chip label="{{ isConnected() ? 'Connected' : 'Not Connected' }}"
+            icon="pi pi-circle-fill {{isConnected() ? 'connected' : 'not-connected'}}">
+        </p-chip>
+    </div>
 </div>

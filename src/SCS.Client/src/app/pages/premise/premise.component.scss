@@ -16,3 +16,10 @@
 ::ng-deep .p-chip-icon.not-connected {
     color: red;
 }
+
+.icon-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-content: center;
+}
