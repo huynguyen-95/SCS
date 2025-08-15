@@ -56,9 +56,11 @@ app.UseHttpsRedirection();
 
 app.UseCors(builder =>
 {
-    builder.AllowAnyOrigin()
+    builder
+        .SetIsOriginAllowed(hostName => true) // Allow any origin
         .AllowAnyMethod()
-        .AllowAnyHeader();
+        .AllowAnyHeader()
+        .AllowCredentials();
 });
 
 app.UseAuthentication();
