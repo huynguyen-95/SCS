@@ -23,24 +23,14 @@
                             [class.rotate]="isSubmenuExpanded('premise')"></i>
                     </a>
                     <ul class="submenu" *ngIf="isSubmenuExpanded('premise') && sidebarVisible">
+                        @for (premise of premises; track premise.id)
+                        {
                         <li>
-                            <a routerLink="/premise/1" routerLinkActive="active">
-                                <i class="pi pi-circle-fill"></i>
-                                <span>Premise 1</span>
+                            <a [routerLink]="['/premise', premise.id]" routerLinkActive="active">
+                                {{ premise.name }}
                             </a>
                         </li>
-                        <li>
-                            <a routerLink="/premise/2" routerLinkActive="active">
-                                <i class="pi pi-circle-fill"></i>
-                                <span>Premise 2</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a routerLink="/premise/3" routerLinkActive="active">
-                                <i class="pi pi-circle-fill"></i>
-                                <span>Premise 3</span>
-                            </a>
-                        </li>
+                        }
                     </ul>
                 </li>
             </ul>
