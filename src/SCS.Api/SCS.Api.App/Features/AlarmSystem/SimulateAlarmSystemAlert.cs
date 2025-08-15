@@ -1,11 +1,17 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Amazon;
+using Amazon.SQS;
+using Amazon.SQS.Model;
 using ErrorOr;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Options;
 using SCS.Api.App.Abstraction.Messaging;
 using SCS.Api.App.Abstraction.Routing;
+using SCS.Api.App.Events;
 using SCS.Api.App.Extensions;
-using SCS.Api.App.Messaging;
+using SCS.Api.App.Settings;
 
 namespace SCS.Api.App.Features.AlarmSystem;
 
@@ -46,16 +52,21 @@ public class SimulateAlarmSystemAlert
 
     public sealed class Handler : IRequestHandler<Command, ErrorOr<Unit>>
     {
-        private readonly IHubContext<AlarmSystemHub> _hubContext;
+        private readonly IAmazonSQS _sqsClient;
+        private readonly string _queueUrl;
         private readonly IValidator<Command> _validator;
 
-        public Handler(IHubContext<AlarmSystemHub> hubContext, IValidator<Command> validator)
+        public Handler(IValidator<Command> validator, IOptions<AwsOptions> awsOptions)
         {
-            ArgumentNullException.ThrowIfNull(hubContext, nameof(hubContext));
             ArgumentNullException.ThrowIfNull(validator, nameof(validator));
+            ArgumentNullException.ThrowIfNull(awsOptions, nameof(awsOptions));
 
-            _hubContext = hubContext;
             _validator = validator;
+            _queueUrl = awsOptions.Value.QueueUrl;
+            _sqsClient = new AmazonSQSClient(
+                awsOptions.Value.AccessKey,
+                awsOptions.Value.SecretKey,
+                RegionEndpoint.GetBySystemName(awsOptions.Value.Region));
         }
 
         public async Task<ErrorOr<Unit>> Handle(Command request, CancellationToken cancellationToken)
@@ -66,8 +77,17 @@ public class SimulateAlarmSystemAlert
                 return Error.Validation("SimulateAlarmSystemAlert.Validation", "Validation failed");
             }
 
-            // Simulate sending an alert to the specified premise
-            await _hubContext.Clients.Group(request.PremiseId.ToString()).SendAsync("ReceiveAlert", request.Message, cancellationToken);
+            var @event = new AlarmSystemAlertEvent(request.PremiseId, request.Message);
+            var sendMessageRequest = new SendMessageRequest
+            {
+                QueueUrl = _queueUrl,
+                MessageBody = JsonSerializer.Serialize(@event, Constants.DefaultJsonSerializerOptions),
+            };
+            var response = await _sqsClient.SendMessageAsync(sendMessageRequest, cancellationToken);
+            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return Error.Failure("SimulateAlarmSystemAlert.Failure", "Failed to send message to SQS");
+            }
 
             return Unit.Value;
         }
