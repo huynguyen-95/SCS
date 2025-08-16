@@ -11,7 +11,7 @@
         <nav class="sidebar-nav">
             <ul>
                 <li>
-                    <a routerLink="/home" routerLinkActive="active">
+                    <a routerLink="home" routerLinkActive="active">
                         <i class="pi pi-home"></i>
                         @if( sidebarVisible)
                         {
@@ -19,6 +19,7 @@
                         }
                     </a>
                 </li>
+                <!-- Premise -->
                 <li class="submenu-item">
                     <a (click)="toggleSubmenu('premise')" [class.expanded]="isSubmenuExpanded('premise')">
                         <i class="pi pi-building"></i>
@@ -37,7 +38,7 @@
                         @for (premise of premises; track premise.id)
                         {
                         <li>
-                            <a [routerLink]="['/premise', premise.id]" routerLinkActive="active">
+                            <a [routerLink]="['premise', premise.id]" routerLinkActive="active">
                                 {{ premise.name }}
                             </a>
                         </li>
@@ -45,6 +46,37 @@
                     </ul>
                     }
                 </li>
+                <!-- Admin -->
+                @if (user?.role === 'Admin')
+                {
+                <li class="submenu-item">
+                    <a (click)="toggleSubmenu('admin')" [class.expanded]="isSubmenuExpanded('admin')">
+                        <i class="pi pi-building"></i>
+                        @if( sidebarVisible)
+                        {
+                        <span>Admin</span>
+                        }
+                        @if (sidebarVisible)
+                        {
+                        <i class="pi pi-chevron-down submenu-arrow" [class.rotate]="isSubmenuExpanded('admin')"></i>
+                        }
+                    </a>
+                    @if (isSubmenuExpanded('admin') && sidebarVisible)
+                    {
+                    <ul class="submenu">
+                        <li>
+                            <a routerLink="admin/alarm-system-simulation" routerLinkActive="active">
+                                <i class="pi pi-home"></i>
+                                @if( sidebarVisible)
+                                {
+                                <span>Alarm System Simulation</span>
+                                }
+                            </a>
+                        </li>
+                    </ul>
+                    }
+                </li>
+                }
             </ul>
         </nav>
     </aside>

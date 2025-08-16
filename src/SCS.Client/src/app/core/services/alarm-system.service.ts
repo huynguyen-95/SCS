@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import environment from '../../env';
+import { ApiService } from './api.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlarmSystemService {
+  private readonly BASE_URL = 'api/alarm-system';
   private hubConnection: HubConnection | null = null;
 
-  constructor() { }
+  constructor(private apiService: ApiService) { }
 
   /**
    * Start SignalR connection to the alarm-system hub
@@ -102,5 +105,9 @@ export class AlarmSystemService {
    */
   getConnectionState(): string {
     return this.hubConnection?.state || 'Disconnected';
+  }
+
+  sendAlert(premiseId: number, alertData: any): Observable<void> {
+    return this.apiService.post(`${this.BASE_URL}/simulate-alert`, { premiseId, message: alertData })
   }
 }

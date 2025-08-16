@@ -23,6 +23,10 @@ export const routes: Routes = [
       {
         path: 'premise/:id',
         loadComponent: () => import('./pages/premise/premise.component').then(m => m.PremiseComponent)
+      },
+      {
+        path: 'admin/alarm-system-simulation',
+        loadComponent: () => import('./pages/alarm-system-simulation/alarm-system-simulation.component').then(m => m.AlarmSystemSimulationComponent)
       }
     ]
   },
