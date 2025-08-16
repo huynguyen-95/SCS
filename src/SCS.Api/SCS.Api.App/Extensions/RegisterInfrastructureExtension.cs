@@ -1,6 +1,10 @@
 using System.Reflection;
+using Amazon;
+using Amazon.Runtime;
+using Amazon.SimpleEmail;
 using SCS.Api.App.Abstraction.Messaging;
 using SCS.Api.App.Consumers;
+using SCS.Api.App.Features;
 using SCS.Api.App.Helpers;
 using SCS.Api.App.Settings;
 
@@ -26,9 +30,18 @@ public static class RegisterInfrastructureExtension
 
         RegisterRequestHandlers(services);
 
-
         // SQS Consumers
         services.AddHostedService<AlarmSystemAlertConsumer>();
+
+        services.AddSingleton<IAmazonSimpleEmailService>(_ =>
+        {
+            var awsSettings = configuration.GetSection(AwsOptions.ConfigurationSection).Get<AwsOptions>();
+            var region = RegionEndpoint.GetBySystemName(awsSettings.Region);
+            var creds = new BasicAWSCredentials(awsSettings.AccessKey, awsSettings.SecretKey);
+
+            return new AmazonSimpleEmailServiceClient(creds, region);
+        });
+        services.AddScoped<IEmailService, EmailService>();
     }
 
     private static void RegisterRequestHandlers(IServiceCollection services)

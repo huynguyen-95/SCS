@@ -18,4 +18,10 @@ public static class ApiGroupExtension
             .RequireAuthorization()
             .WithTags("Alarm System")
             .WithDisplayName("Alarm System Endpoints");
+
+    public static RouteGroupBuilder SecurityGuardGroup(this IEndpointRouteBuilder app) =>
+        app.MapGroup("api/security-guard")
+            .RequireAuthorization()
+            .WithTags("Security Guard")
+            .WithDisplayName("Security Guard Endpoints");
 }
