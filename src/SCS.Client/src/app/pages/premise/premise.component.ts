@@ -7,19 +7,30 @@ import { ToastModule } from 'primeng/toast';
 import { ChipModule } from 'primeng/chip';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { StreamingPlayerModule } from '../../components/streaming-player/streaming-player-module';
+import { TabsModule } from 'primeng/tabs';
+import { AlertDataTable } from '../../components/alert-data-table/alert-data-table';
 
 @Component({
     selector: 'app-premise',
     templateUrl: './premise.component.html',
     styleUrls: ['./premise.component.scss'],
     standalone: true,
-    imports: [CommonModule, ToastModule, ChipModule, OverlayBadgeModule, StreamingPlayerModule],
+    imports: [
+        CommonModule,
+        ToastModule,
+        ChipModule,
+        OverlayBadgeModule,
+        TabsModule,
+        StreamingPlayerModule,
+        AlertDataTable
+    ],
 })
 export class PremiseComponent implements OnInit, OnDestroy {
     premiseId: number = 0;
     isConnected: WritableSignal<boolean> = signal(false);
     connectionError: string | null = null;
     alertCount: WritableSignal<number> = signal(0);
+    alertData: WritableSignal<AlertInfo[]> = signal([]);
 
     constructor(
         private route: ActivatedRoute,
@@ -66,6 +77,12 @@ export class PremiseComponent implements OnInit, OnDestroy {
         this.alarmSystemService.onMethod('ReceiveAlert', (alarmData: any) => {
             this.messageService.add({ severity: 'error', summary: 'Alarm System', detail: alarmData });
             this.alertCount.update(count => count + 1);
+
+            const newAlert: AlertInfo = {
+                timestamp: Date.now(),
+                message: alarmData,
+            };
+            this.alertData.update(data => [...data, newAlert]);
         });
     }
 }

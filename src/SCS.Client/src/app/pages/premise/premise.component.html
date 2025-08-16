@@ -35,3 +35,27 @@
         </div>
     </div>
 </div>
+
+<p-tabs [value]="0">
+    <p-tablist>
+        <p-tab [value]="0">Guard Duty</p-tab>
+        <p-tab [value]="1">Alert</p-tab>
+    </p-tablist>
+    <p-tabpanels>
+        <p-tabpanel [value]="0">
+            <p class="m-0">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore
+                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+                id est
+                laborum.
+            </p>
+        </p-tabpanel>
+        <p-tabpanel [value]="1">
+            <app-alert-data-table [data]="alertData()"></app-alert-data-table>
+        </p-tabpanel>
+    </p-tabpanels>
+</p-tabs>
