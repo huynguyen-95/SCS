@@ -23,3 +23,32 @@
     gap: 10px;
     align-content: center;
 }
+
+.video-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 15px;
+    margin-top: 2rem;
+    height: 70vh;
+    padding: 0 10px;
+}
+
+.video-item {
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.video-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #6c757d;
+    background-color: #e9ecef;
+}

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, signal, WritableSignal } from '@angular/core';
 import HlsJs from 'hls.js';
 
 @Component({
@@ -8,7 +8,8 @@ import HlsJs from 'hls.js';
   standalone: false,
 })
 export class StreamingPlayer implements OnInit, AfterViewInit {
-  public sourceUrl: string = 'http://localhost:5050/hls/fl1-1/playlist.m3u8';
+  public sourceUrl: string = 'https://scs-assessment-bucket.s3.ap-southeast-1.amazonaws.com/fl1-1/playlist.m3u8';
+  public showError: WritableSignal<boolean> = signal(false);
 
   ngOnInit(): void {
   }
@@ -25,6 +26,10 @@ export class StreamingPlayer implements OnInit, AfterViewInit {
     hls.attachMedia(video);
     hls.on(HlsJs.Events.MANIFEST_PARSED, function () {
       video.play();
+    });
+
+    hls.on(HlsJs.Events.ERROR, (event, data) => {
+      this.showError.set(true);
     });
   }
 }

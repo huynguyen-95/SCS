@@ -44,6 +44,15 @@ export class AuthService {
     const userInfo = this.getUserInfo();
     if (!userInfo) return false;
 
+    // Check if token has expired
+    if (userInfo.exp) {
+      const currentTime = Math.floor(Date.now() / 1000); // Current time in Unix timestamp
+      if (userInfo.exp < currentTime) {
+        this.removeToken(); // Remove expired token
+        return false;
+      }
+    }
+
     return true;
   }
 

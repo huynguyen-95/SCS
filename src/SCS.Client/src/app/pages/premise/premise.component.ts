@@ -6,13 +6,14 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ChipModule } from 'primeng/chip';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
+import { StreamingPlayerModule } from '../../components/streaming-player/streaming-player-module';
 
 @Component({
     selector: 'app-premise',
     templateUrl: './premise.component.html',
     styleUrls: ['./premise.component.scss'],
     standalone: true,
-    imports: [CommonModule, ToastModule, ChipModule, OverlayBadgeModule],
+    imports: [CommonModule, ToastModule, ChipModule, OverlayBadgeModule, StreamingPlayerModule],
 })
 export class PremiseComponent implements OnInit, OnDestroy {
     premiseId: number = 0;

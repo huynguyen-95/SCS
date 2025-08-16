@@ -10,6 +10,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  // Redirect to login page
+  // Token is either missing, invalid, or expired - redirect to login page
   return router.createUrlTree(['/login']);
 };
