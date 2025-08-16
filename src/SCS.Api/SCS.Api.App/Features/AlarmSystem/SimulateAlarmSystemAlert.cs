@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Amazon;
 using Amazon.SQS;
 using Amazon.SQS.Model;
@@ -22,7 +21,7 @@ public class SimulateAlarmSystemAlert
         public void MapEndpoint(IEndpointRouteBuilder endpoints)
         {
             var group = endpoints.AlarmSystemGroup();
-            group.MapPost("/alarm-system/simulate-alert", Handle)
+            group.MapPost("simulate-alert", Handle)
                 .WithName("SimulateAlarmSystemAlert")
                 .WithTags("Alarm System")
                 .Produces(StatusCodes.Status200OK)
