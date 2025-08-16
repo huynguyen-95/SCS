@@ -1,0 +1,19 @@
+<div class="dispatch-container">
+    <h3>Dispatch Security Guard</h3>
+
+    <form [formGroup]="dispatchForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" formControlName="email" class="form-control">
+
+            <div class="error-message" *ngIf="email?.invalid && email?.touched">
+                <span *ngIf="email?.errors?.['required']">Email is required</span>
+                <span *ngIf="email?.errors?.['email']">Please enter a valid email format</span>
+            </div>
+        </div>
+
+        <button type="submit" [disabled]="!dispatchForm.valid" class="submit-btn">
+            Dispatch
+        </button>
+    </form>
+</div>

@@ -9,6 +9,7 @@ import { OverlayBadgeModule } from 'primeng/overlaybadge';
 import { StreamingPlayerModule } from '../../components/streaming-player/streaming-player-module';
 import { TabsModule } from 'primeng/tabs';
 import { AlertDataTable } from '../../components/alert-data-table/alert-data-table';
+import { DispathSecurityGuard } from "../../components/dispath-security-guard/dispath-security-guard";
 
 @Component({
     selector: 'app-premise',
@@ -22,7 +23,8 @@ import { AlertDataTable } from '../../components/alert-data-table/alert-data-tab
         OverlayBadgeModule,
         TabsModule,
         StreamingPlayerModule,
-        AlertDataTable
+        AlertDataTable,
+        DispathSecurityGuard
     ],
 })
 export class PremiseComponent implements OnInit, OnDestroy {
