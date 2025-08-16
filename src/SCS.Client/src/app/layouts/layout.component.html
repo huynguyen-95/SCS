@@ -39,6 +39,7 @@
                         {
                         <li>
                             <a [routerLink]="['premise', premise.id]" routerLinkActive="active">
+                                <i class="pi pi-camera" style="font-size: 1em;"></i>
                                 {{ premise.name }}
                             </a>
                         </li>
@@ -51,7 +52,7 @@
                 {
                 <li class="submenu-item">
                     <a (click)="toggleSubmenu('admin')" [class.expanded]="isSubmenuExpanded('admin')">
-                        <i class="pi pi-building"></i>
+                        <i class="pi pi-cog"></i>
                         @if( sidebarVisible)
                         {
                         <span>Admin</span>
@@ -66,7 +67,7 @@
                     <ul class="submenu">
                         <li>
                             <a routerLink="admin/alarm-system-simulation" routerLinkActive="active">
-                                <i class="pi pi-home"></i>
+                                <i class="pi pi-bell" style="font-size: 1em;"></i>
                                 @if( sidebarVisible)
                                 {
                                 <span>Alarm System Simulation</span>
