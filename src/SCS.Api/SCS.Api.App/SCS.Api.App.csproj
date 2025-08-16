@@ -25,8 +25,4 @@
     <ProjectReference Include="..\SCS.Api.Domain\SCS.Api.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

@@ -4,8 +4,8 @@ using Amazon.Runtime;
 using Amazon.SimpleEmail;
 using SCS.Api.App.Abstraction.Messaging;
 using SCS.Api.App.Consumers;
-using SCS.Api.App.Features;
 using SCS.Api.App.Helpers;
+using SCS.Api.App.Services;
 using SCS.Api.App.Settings;
 
 namespace SCS.Api.App.Extensions;

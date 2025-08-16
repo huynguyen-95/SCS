@@ -1,7 +1,7 @@
 using Amazon.SimpleEmail;
 using Amazon.SimpleEmail.Model;
 
-namespace SCS.Api.App.Features;
+namespace SCS.Api.App.Services;
 
 public interface IEmailService
 {
