@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using SCS.Api.App.Extensions;
-using SCS.Api.App.Features.Authentication;
+using SCS.Api.App.Helpers;
 using SCS.Api.App.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);

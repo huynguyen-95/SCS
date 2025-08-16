@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SCS.Api.App.Abstraction.Messaging;
 using SCS.Api.App.Abstraction.Routing;
 using SCS.Api.App.Extensions;
+using SCS.Api.App.Helpers;
 
 namespace SCS.Api.App.Features.Authentication;
 

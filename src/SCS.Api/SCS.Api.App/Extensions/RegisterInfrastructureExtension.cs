@@ -1,7 +1,7 @@
 using System.Reflection;
 using SCS.Api.App.Abstraction.Messaging;
 using SCS.Api.App.Consumers;
-using SCS.Api.App.Features.Authentication;
+using SCS.Api.App.Helpers;
 using SCS.Api.App.Settings;
 
 namespace SCS.Api.App.Extensions;
@@ -12,12 +12,16 @@ public static class RegisterInfrastructureExtension
     {
         services.Configure<AwsOptions>(configuration.GetSection(AwsOptions.ConfigurationSection));
 
-        // Configure JWT
         services.AddOptions<AwsOptions>()
             .Bind(configuration.GetSection(AwsOptions.ConfigurationSection))
             .ValidateDataAnnotations()
             .ValidateOnStart();
 
+        // Configure JWT
+        services.AddOptions<JwtSettings>()
+            .Bind(configuration.GetSection(JwtSettings.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
         RegisterRequestHandlers(services);
