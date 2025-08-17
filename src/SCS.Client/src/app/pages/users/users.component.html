@@ -1,0 +1,28 @@
+<div class="users-container">
+    <h2>Users</h2>
+
+    <div class="table-container">
+        <p-table [value]="users()" [tableStyle]="{ 'min-width': '60rem' }">
+            <ng-template #header>
+                <tr>
+                    <th>Employee No</th>
+                    <th>Name</th>
+                    <th>Admin</th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-user>
+                <tr>
+                    <td>{{ user.empNo }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>
+                        @if (user.isAdmin) {
+                        <p-chip label="Admin" icon="pi pi-shield" severity="success"></p-chip>
+                        } @else {
+                        <p-chip label="SCS User" icon="pi pi-user" severity="info"></p-chip>
+                        }
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

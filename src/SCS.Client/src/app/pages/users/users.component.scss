@@ -1,0 +1,94 @@
+.users-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+}
+
+.table-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.role-badge {
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.expiry-normal {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.expiry-warning {
+    color: #ffc107;
+    font-weight: 600;
+}
+
+.expiry-soon {
+    color: #dc3545;
+    font-weight: 700;
+}
+
+.no-expiry {
+    color: #6c757d;
+    font-style: italic;
+}
+
+:host ::ng-deep .p-datatable {
+    .p-datatable-thead > tr > th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        border-bottom: 2px solid #dee2e6;
+        padding: 1rem;
+    }
+
+    .p-datatable-tbody > tr {
+        &:hover {
+            background-color: #f8f9fa;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            vertical-align: middle;
+        }
+    }
+
+    .p-paginator {
+        background-color: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+        border-radius: 0 0 8px 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .users-container {
+        margin: 1rem;
+        padding: 1rem;
+        max-width: none;
+    }
+
+    :host ::ng-deep .p-datatable {
+        font-size: 0.875rem;
+
+        .p-datatable-thead > tr > th,
+        .p-datatable-tbody > tr > td {
+            padding: 0.5rem;
+        }
+    }
+}

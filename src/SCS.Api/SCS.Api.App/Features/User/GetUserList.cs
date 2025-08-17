@@ -15,7 +15,7 @@ public static class GetUserList
         {
             var group = app.UserGroup();
 
-            group.MapGet("/list", HandleAsync)
+            group.MapGet("", HandleAsync)
                 .WithName("GetUserList")
                 .WithSummary("Get a list of users")
                 .WithDescription("Retrieves a list of users with their employee number, name, and admin status.")

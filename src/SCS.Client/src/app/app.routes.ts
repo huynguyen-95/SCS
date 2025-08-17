@@ -31,6 +31,10 @@ export const routes: Routes = [
       {
         path: 'admin/capture-incident-simulation',
         loadComponent: () => import('./pages/capture-incident-simulation/capture-incident-simulation.component').then(m => m.CaptureIncidentSimulationComponent)
+      },
+      {
+        path: 'admin/users',
+        loadComponent: () => import('./pages/users/users.component').then(m => m.UsersComponent)
       }
     ]
   },

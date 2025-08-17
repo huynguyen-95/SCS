@@ -11,6 +11,7 @@ import { DrawerModule } from 'primeng/drawer';
 import { AuthService } from '../core/services/auth.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { UserInfo } from '../models/user-info.model';
 
 @Component({
     selector: 'app-layout',

@@ -66,6 +66,15 @@
                     {
                     <ul class="submenu">
                         <li>
+                            <a routerLink="admin/users" routerLinkActive="active">
+                                <i class="pi pi-users" style="font-size: 1em;"></i>
+                                @if( sidebarVisible)
+                                {
+                                <span>Users</span>
+                                }
+                            </a>
+                        </li>
+                        <li>
                             <a routerLink="admin/alarm-system-simulation" routerLinkActive="active">
                                 <i class="pi pi-bell" style="font-size: 1em;"></i>
                                 @if( sidebarVisible)
@@ -76,7 +85,7 @@
                         </li>
                         <li>
                             <a routerLink="admin/capture-incident-simulation" routerLinkActive="active">
-                                <i class="pi pi-bell" style="font-size: 1em;"></i>
+                                <i class="pi pi-flag" style="font-size: 1em;"></i>
                                 @if( sidebarVisible)
                                 {
                                 <span>Capture Incident Simulation</span>
