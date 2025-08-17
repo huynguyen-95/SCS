@@ -40,6 +40,7 @@
     <p-tablist>
         <p-tab [value]="0">Guard Duty</p-tab>
         <p-tab [value]="1">Alert</p-tab>
+        <p-tab [value]="2">Incidents</p-tab>
     </p-tablist>
     <p-tabpanels>
         <p-tabpanel [value]="0">
@@ -47,6 +48,9 @@
         </p-tabpanel>
         <p-tabpanel [value]="1">
             <app-alert-data-table [data]="alertData()"></app-alert-data-table>
+        </p-tabpanel>
+        <p-tabpanel [value]="2">
+            <app-incident-data-table [data]="incidentData()"></app-incident-data-table>
         </p-tabpanel>
     </p-tabpanels>
 </p-tabs>

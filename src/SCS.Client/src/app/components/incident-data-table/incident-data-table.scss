@@ -1,0 +1,27 @@
+.file-link {
+    color: #007bff;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: #f8f9fa;
+        text-decoration: underline;
+    }
+}
+
+:host ::ng-deep .p-datatable {
+    .p-datatable-thead > tr > th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .p-datatable-tbody > tr {
+        &:hover {
+            background-color: #f8f9fa;
+        }
+    }
+}

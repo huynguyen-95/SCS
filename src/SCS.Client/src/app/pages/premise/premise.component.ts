@@ -10,6 +10,9 @@ import { StreamingPlayerModule } from '../../components/streaming-player/streami
 import { TabsModule } from 'primeng/tabs';
 import { AlertDataTable } from '../../components/alert-data-table/alert-data-table';
 import { DispathSecurityGuard } from "../../components/dispath-security-guard/dispath-security-guard";
+import { IncidentDataTable } from "../../components/incident-data-table/incident-data-table";
+import { IncidentInfo } from '../../models/incident-info.model';
+import { PremiseService } from '../../core/services/premise.service';
 
 @Component({
     selector: 'app-premise',
@@ -24,7 +27,8 @@ import { DispathSecurityGuard } from "../../components/dispath-security-guard/di
         TabsModule,
         StreamingPlayerModule,
         AlertDataTable,
-        DispathSecurityGuard
+        DispathSecurityGuard,
+        IncidentDataTable
     ],
 })
 export class PremiseComponent implements OnInit, OnDestroy {
@@ -33,11 +37,13 @@ export class PremiseComponent implements OnInit, OnDestroy {
     connectionError: string | null = null;
     alertCount: WritableSignal<number> = signal(0);
     alertData: WritableSignal<AlertInfo[]> = signal([]);
+    incidentData: WritableSignal<IncidentInfo[]> = signal([]);
 
     constructor(
         private route: ActivatedRoute,
         private alarmSystemService: AlarmSystemService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private premiseService: PremiseService
     ) { }
 
     async ngOnInit() {
@@ -46,6 +52,15 @@ export class PremiseComponent implements OnInit, OnDestroy {
 
             if (this.premiseId) {
                 await this.connectToSignalR();
+
+                // Load initial data
+                try {
+                    const incidents = await this.premiseService.getPremiseIncidentsListAsync(this.premiseId);
+                    this.incidentData.set(incidents);
+                } catch (error) {
+                    console.error('Failed to load incidents:', error);
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load incidents.' });
+                }
             }
         });
     }
