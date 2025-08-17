@@ -1,6 +1,7 @@
 @if (!showError())
 {
-<video preload="none" id="player" autoplay controls crossorigin></video>
+<video preload="none" id="{{videoId}}" autoplay controls crossorigin muted>
+</video>
 } @else
 {
 <p>Error loading video stream. Please try again later.</p>
