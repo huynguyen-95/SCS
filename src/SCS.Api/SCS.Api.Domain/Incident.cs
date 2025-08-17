@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace SCS.Api.Domain;
 
-public class Incident(int premiseId, string description, DateTime date, string filePath, string createdBy)
+public class Incident(int premiseId, string description, DateTimeOffset date, string filePath, string createdBy)
 {
     public int Id { get; private set; }
 
@@ -11,7 +11,7 @@ public class Incident(int premiseId, string description, DateTime date, string f
 
     public string Description { get; private set; } = description;
 
-    public DateTime Date { get; private set; } = date;
+    public DateTimeOffset Date { get; private set; } = date;
 
     public string FilePath { get; private set; } = filePath;
 

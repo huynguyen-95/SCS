@@ -31,7 +31,7 @@ public static class CaptureIncident
             [FromRoute] int premiseId,
             [FromForm] IFormFile file,
             [FromForm] string description,
-            [FromForm] DateTime incidentDate,
+            [FromForm] DateTimeOffset incidentDate,
             IRequestHandler<Command, ErrorOr<Unit>> handler,
             CancellationToken cancellationToken
         )
@@ -43,7 +43,7 @@ public static class CaptureIncident
         }
     }
 
-    public record Command(int PremiseId, IFormFile File, string Description, DateTime IncidentDate) : IRequest<ErrorOr<Unit>>;
+    public record Command(int PremiseId, IFormFile File, string Description, DateTimeOffset IncidentDate) : IRequest<ErrorOr<Unit>>;
 
     public class Validator : AbstractValidator<Command>
     {
