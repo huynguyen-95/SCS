@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using SCS.Api.App.Abstraction.Messaging;
 using SCS.Api.App.Abstraction.Routing;
 using SCS.Api.App.Extensions;
+using SCS.Api.App.Persistences;
 
 namespace SCS.Api.App.Features.Premise;
 
@@ -22,11 +24,11 @@ public class GetPremiseList
         }
 
         private async Task<Ok<IEnumerable<PremiseDto>>> HandleAsync(
-            IMemoryCache cache,
+            IRequestHandler<Query, IEnumerable<PremiseDto>> handler,
             CancellationToken cancellationToken)
         {
-            var handler = new Handler(cache);
             var result = await handler.Handle(new Query(), cancellationToken);
+
             return TypedResults.Ok(result);
         }
     }
@@ -35,24 +37,29 @@ public class GetPremiseList
 
     public record PremiseDto(int Id, string Name);
 
-    public sealed class Handler(IMemoryCache cache) : IRequestHandler<Query, IEnumerable<PremiseDto>>
+    public sealed class Handler(
+        ApplicationDbContext context,
+        IMemoryCache cache
+    ) : IRequestHandler<Query, IEnumerable<PremiseDto>>
     {
-        private const string CacheKey = "PremiseList";
+        private readonly ApplicationDbContext _context = context;
 
         private readonly IMemoryCache _cache = cache;
 
-        private readonly IEnumerable<PremiseDto> _data = new List<PremiseDto>
-        {
-            new(1, "Premise 1"),
-            new(2, "Premise 2"),
-        };
+        private const string CACHE_KEY = "PremiseList";
+
+        private const int CACHE_DURATION_MINUTES = 30;
 
         public async Task<IEnumerable<PremiseDto>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var cacheValue = await _cache.GetOrCreateAsync(CacheKey, entry =>
+            var cacheValue = await _cache.GetOrCreateAsync(CACHE_KEY, async entry =>
             {
-                entry.SetAbsoluteExpiration(DateTimeOffset.UtcNow.AddMinutes(5));
-                return Task.FromResult(_data);
+                var data = await _context.Premises
+                    .Select(p => new PremiseDto(p.Id, p.Name))
+                    .ToListAsync(cancellationToken);
+
+                entry.SetAbsoluteExpiration(DateTimeOffset.UtcNow.AddMinutes(CACHE_DURATION_MINUTES));
+                return data;
             });
 
             return cacheValue ?? [];
