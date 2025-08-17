@@ -23,9 +23,11 @@ public sealed class UserDomainConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
+        builder.ToTable("users");
         builder.HasKey(u => u.EmpNo);
-        builder.Property(u => u.EmpNo).IsRequired().HasMaxLength(50);
-        builder.Property(u => u.Username).IsRequired().HasMaxLength(100);
-        builder.Property(u => u.IsAdmin).IsRequired();
+
+        builder.Property(u => u.EmpNo).IsRequired().HasMaxLength(50).HasColumnName("emp_no");
+        builder.Property(u => u.Username).IsRequired().HasMaxLength(100).HasColumnName("username");
+        builder.Property(u => u.IsAdmin).IsRequired().HasColumnName("is_admin");
     }
 }

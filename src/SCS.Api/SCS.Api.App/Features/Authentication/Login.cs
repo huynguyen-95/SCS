@@ -1,10 +1,12 @@
 using ErrorOr;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SCS.Api.App.Abstraction.Messaging;
 using SCS.Api.App.Abstraction.Routing;
 using SCS.Api.App.Extensions;
 using SCS.Api.App.Helpers;
+using SCS.Api.App.Persistences;
 
 namespace SCS.Api.App.Features.Authentication;
 
@@ -60,33 +62,32 @@ public static class Login
         }
     }
 
-    public sealed class Handler(IValidator<Command> validator, IJwtTokenGenerator jwtTokenGenerator) : IRequestHandler<Command, ErrorOr<AuthenticationResponse>>
+    public sealed class Handler(
+        ApplicationDbContext context,
+        IValidator<Command> validator,
+        IJwtTokenGenerator jwtTokenGenerator
+    ) : IRequestHandler<Command, ErrorOr<AuthenticationResponse>>
     {
+        private readonly ApplicationDbContext _context = context;
         private readonly IValidator<Command> _validator = validator;
         private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
 
-        private IEnumerable<Domain.User> _users = [
-            new Domain.User("88907299", "Huy", true)
-        ];
-
-        public Task<ErrorOr<AuthenticationResponse>> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<AuthenticationResponse>> Handle(Command request, CancellationToken cancellationToken)
         {
             var validationResult = _validator.Validate(request);
             if (!validationResult.IsValid)
             {
-                return Task.FromResult<ErrorOr<AuthenticationResponse>>(
-                    Error.Validation("Login.Validation", validationResult.Errors.Select(e => e.ErrorMessage).FirstOrDefault() ?? "Validation failed."));
+                return Error.Validation("Login.Validation", validationResult.Errors.Select(e => e.ErrorMessage).FirstOrDefault() ?? "Validation failed.");
             }
 
-            var user = _users.FirstOrDefault(x => x.EmpNo == request.EmpNo);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.EmpNo == request.EmpNo, cancellationToken);
             if (user == null)
             {
-                return Task.FromResult<ErrorOr<AuthenticationResponse>>(
-                    Error.NotFound("Login.UserNotFound", "User not found."));
+                return Error.NotFound("Login.UserNotFound", "User not found.");
             }
 
             var token = _jwtTokenGenerator.GenerateToken(user);
-            return Task.FromResult<ErrorOr<AuthenticationResponse>>(new AuthenticationResponse(token));
+            return new AuthenticationResponse(token);
         }
     }
 }
