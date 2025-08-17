@@ -27,6 +27,10 @@ export const routes: Routes = [
       {
         path: 'admin/alarm-system-simulation',
         loadComponent: () => import('./pages/alarm-system-simulation/alarm-system-simulation.component').then(m => m.AlarmSystemSimulationComponent)
+      },
+      {
+        path: 'admin/capture-incident-simulation',
+        loadComponent: () => import('./pages/capture-incident-simulation/capture-incident-simulation.component').then(m => m.CaptureIncidentSimulationComponent)
       }
     ]
   },
