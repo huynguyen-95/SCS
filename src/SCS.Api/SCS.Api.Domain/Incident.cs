@@ -25,6 +25,9 @@ public sealed class IncidentDomainConfiguration : IEntityTypeConfiguration<Incid
         builder.ToTable("incidents");
         builder.HasKey(i => i.Id);
 
+        builder.Property(i => i.Id)
+            .HasColumnName("id");
+
         builder.Property(i => i.PremiseId)
             .IsRequired()
             .HasColumnName("premise_id");

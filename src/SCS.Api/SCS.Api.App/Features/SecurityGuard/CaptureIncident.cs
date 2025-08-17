@@ -23,6 +23,7 @@ public static class CaptureIncident
                 .WithDescription("Captures an incident with a file upload and stores it in the database.")
                 .Produces<Ok>()
                 .Produces<BadRequest>()
+                .DisableAntiforgery()
                 .WithOpenApi();
         }
 

@@ -11,11 +11,11 @@ builder.Services.AddOpenApi();
 builder.Services.ConfigureInfrastructure(builder.Configuration);
 builder.Services.RegisterDatabase(builder.Configuration);
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-builder.Services.AddCors();
 builder.Services.ConfigureAuthorization(builder.Configuration);
+
+builder.Services.AddCors();
 builder.Services.AddMemoryCache();
 builder.Services.AddSignalR();
-
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
