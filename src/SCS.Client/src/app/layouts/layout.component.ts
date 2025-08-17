@@ -3,15 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { PremiseService } from '../core/services/premise.service';
 import { Premise } from '../models/premise.model';
-import { ButtonModule } from 'primeng/button';
-import { Ripple, RippleModule } from 'primeng/ripple';
-import { AvatarModule } from 'primeng/avatar';
-import { StyleClass } from 'primeng/styleclass';
-import { DrawerModule } from 'primeng/drawer';
 import { AuthService } from '../core/services/auth.service';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { UserInfo } from '../models/user-info.model';
+import { MenuModule } from 'primeng/menu';
 
 @Component({
     selector: 'app-layout',
@@ -23,7 +19,8 @@ import { UserInfo } from '../models/user-info.model';
         CommonModule,
         RouterOutlet,
         RouterLink,
-        RouterLinkActive
+        RouterLinkActive,
+        MenuModule
     ],
     providers: [MessageService]
 })
@@ -32,6 +29,15 @@ export class LayoutComponent implements OnInit {
     expandedMenus: { [key: string]: boolean } = {};
     user: UserInfo | null = null;
     premises: Premise[] = [];
+    items: MenuItem[] = [
+        {
+            label: "Logout",
+            icon: "pi pi-sign-out",
+            command: () => {
+                this.authService.logout();
+            }
+        }
+    ]
 
     constructor(
         private authService: AuthService,

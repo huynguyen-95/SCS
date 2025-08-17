@@ -109,7 +109,8 @@
             </div>
             <div class="header-right">
                 <span>Hi, {{user?.name ?? ''}}</span>
-                <button class="user-menu">
+                <p-menu #menu [model]="items" [popup]="true" />
+                <button class="user-menu" (click)="menu.toggle($event)">
                     <i class="pi pi-user"></i>
                 </button>
             </div>

@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import environment from '../../env';
+import { UserInfo } from '../../models/user-info.model';
 
 @Injectable({
   providedIn: 'root'

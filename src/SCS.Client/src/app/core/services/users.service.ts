@@ -18,4 +18,13 @@ export class UserService {
     getUsersListAsync(): Promise<UserInfo[]> {
         return firstValueFrom(this.apiService.get<UserInfo[]>(this.BASE_URL));
     }
+
+    /**
+     * Create a new user
+     * @param user UserInfo object to create
+     * @returns Promise<UserInfo>
+     */
+    createUserAsync(user: UserInfo): Promise<UserInfo> {
+        return firstValueFrom(this.apiService.post<UserInfo>(`${this.BASE_URL}`, user));
+    }
 }

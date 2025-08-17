@@ -38,7 +38,7 @@ public static class AddNewUser
         }
     }
 
-    public record Command(string EmpNo, string Username, bool IsAdmin) : IRequest<ErrorOr<Unit>>;
+    public record Command(string EmpNo, string Name, bool IsAdmin) : IRequest<ErrorOr<Unit>>;
 
     public class Handler(ApplicationDbContext context) : IRequestHandler<Command, ErrorOr<Unit>>
     {
@@ -54,7 +54,7 @@ public static class AddNewUser
 
             var user = new Domain.User(
                 empNo: request.EmpNo,
-                username: request.Username,
+                username: request.Name,
                 isAdmin: request.IsAdmin);
 
             await _context.Users.AddAsync(user, cancellationToken);

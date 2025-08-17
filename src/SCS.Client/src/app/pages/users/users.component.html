@@ -1,5 +1,8 @@
 <div class="users-container">
-    <h2>Users</h2>
+    <div class="header-section">
+        <h2>Users</h2>
+        <p-button icon="pi pi-plus" label="Create User" (onClick)="onCreateUser()"></p-button>
+    </div>
 
     <div class="table-container">
         <p-table [value]="users()" [tableStyle]="{ 'min-width': '60rem' }">
@@ -25,4 +28,39 @@
             </ng-template>
         </p-table>
     </div>
+
+    <!-- Create User Modal -->
+    <p-dialog header="Create New User" [(visible)]="showCreateModal" [modal]="true" [style]="{width: '450px'}"
+        [closable]="true" (onHide)="closeModal()">
+
+        <form (ngSubmit)="onSaveUser()" #userForm="ngForm">
+            <div class="form-group">
+                <label for="empNo">Employee No:</label>
+                <input type="text" id="empNo" name="empNo" pInputText [(ngModel)]="newUser.empNo" required
+                    class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" pInputText [(ngModel)]="newUser.name" required
+                    class="form-control">
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <p-checkbox [(ngModel)]="newUser.isAdmin" [ngModelOptions]="{standalone: true}" inputId="isAdmin"
+                        [binary]="true">
+                    </p-checkbox>
+                    <label for="isAdmin" class="checkbox-label">Is Admin</label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p-button label="Cancel" icon="pi pi-times" (onClick)="closeModal()" [text]="true">
+                </p-button>
+                <p-button label="Save" icon="pi pi-check" type="submit" [disabled]="!userForm.form.valid">
+                </p-button>
+            </div>
+        </form>
+    </p-dialog>
 </div>
