@@ -36,6 +36,17 @@ export class ApiService {
     }
 
     /**
+     * POST request for form data (multipart/form-data)
+     * @param path - API endpoint path
+     * @param formData - FormData object
+     */
+    postFormData<T>(path: string, formData: FormData): Observable<T> {
+        return this.http
+            .post<T>(`${this.apiUrl}/${path}`, formData)
+            .pipe(catchError(this.handleError));
+    }
+
+    /**
      * Generic PUT request
      * @param path - API endpoint path
      * @param body - Request body

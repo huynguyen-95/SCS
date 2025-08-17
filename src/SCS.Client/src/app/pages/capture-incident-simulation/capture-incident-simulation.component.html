@@ -3,6 +3,12 @@
 
     <form (ngSubmit)="onSubmit()" #incidentForm="ngForm">
         <div class="form-group">
+            <label for="premise">Premise:</label>
+            <p-select [options]="premises()" [(ngModel)]="selectedPremise" optionLabel="name"
+                [ngModelOptions]="{standalone: true}" placeholder="Select a premise" />
+        </div>
+
+        <div class="form-group">
             <label for="imageUpload">Upload Image:</label>
             <input type="file" id="imageUpload" name="imageUpload" accept="image/*" (change)="onFileSelected($event)"
                 required class="form-control file-input">
