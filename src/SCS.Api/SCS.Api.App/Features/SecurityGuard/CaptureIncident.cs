@@ -1,10 +1,14 @@
+using System.Text.Json;
 using ErrorOr;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using SCS.Api.App.Abstraction.Messaging;
 using SCS.Api.App.Abstraction.Routing;
 using SCS.Api.App.Extensions;
+using SCS.Api.App.Features.Premise;
+using SCS.Api.App.Messaging;
 using SCS.Api.App.Persistences;
 using SCS.Api.App.Services;
 
@@ -59,12 +63,14 @@ public static class CaptureIncident
         ApplicationDbContext context,
         IUploadFileService uploadFileService,
         ICurrentUserAccessor currentUserAccessor,
+        IHubContext<AlarmSystemHub> hubContext,
         IValidator<Command> validator
     ) : IRequestHandler<Command, ErrorOr<Unit>>
     {
         private readonly ApplicationDbContext _context = context;
         private readonly IUploadFileService _uploadFileService = uploadFileService;
         private readonly ICurrentUserAccessor _currentUserAccessor = currentUserAccessor;
+        private readonly IHubContext<AlarmSystemHub> _hubContext = hubContext;
         private readonly IValidator<Command> _validator = validator;
 
         public async Task<ErrorOr<Unit>> Handle(Command request, CancellationToken cancellationToken)
@@ -91,6 +97,14 @@ public static class CaptureIncident
 
             await _context.Incidents.AddAsync(incident, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+
+            var dto = new GetPremiseIncidentList.PremiseIncidentDto(
+                incident.Description,
+                incident.Date,
+                incident.FilePath
+            );
+            var @event = JsonSerializer.Serialize(dto, Constants.DefaultJsonSerializerOptions);
+            await _hubContext.Clients.Group(request.PremiseId.ToString()).SendAsync("ReceiveIncident", @event, cancellationToken);
 
             return Unit.Value;
         }

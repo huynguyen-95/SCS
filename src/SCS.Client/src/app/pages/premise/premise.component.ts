@@ -91,7 +91,7 @@ export class PremiseComponent implements OnInit, OnDestroy {
 
     private registerSignalREvents(): void {
         // Example event handlers - adjust based on your hub's methods
-        this.alarmSystemService.onMethod('ReceiveAlert', (alarmData: any) => {
+        this.alarmSystemService.onMethod('ReceiveAlert', (alarmData: string) => {
             this.messageService.add({ severity: 'error', summary: 'Alarm System', detail: alarmData });
             this.alertCount.update(count => count + 1);
 
@@ -100,6 +100,13 @@ export class PremiseComponent implements OnInit, OnDestroy {
                 message: alarmData,
             };
             this.alertData.update(data => [...data, newAlert]);
+        });
+
+        this.alarmSystemService.onMethod('ReceiveIncident', (incidentString: string) => {
+            this.messageService.add({ severity: 'warn', summary: 'Incident', detail: 'New incident found.' });
+            const incidentData: IncidentInfo = JSON.parse(incidentString);
+
+            this.incidentData.update(data => [incidentData, ...data]);
         });
     }
 }
