@@ -6,10 +6,20 @@
             <label for="email">Email:</label>
             <input type="email" id="email" formControlName="email" class="form-control">
 
-            <div class="error-message" *ngIf="email?.invalid && email?.touched">
-                <span *ngIf="email?.errors?.['required']">Email is required</span>
-                <span *ngIf="email?.errors?.['email']">Please enter a valid email format</span>
+            @if (email?.invalid && email?.touched)
+            {
+            <div class="error-message">
+                @if (email?.errors?.['required'])
+                {
+                <span>Email is required</span>
+                }
+
+                @if (email?.errors?.['email'])
+                {
+                <span>Please enter a valid email format</span>
+                }
             </div>
+            }
         </div>
 
         <button type="submit" [disabled]="!dispatchForm.valid" class="submit-btn">
