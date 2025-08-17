@@ -24,4 +24,10 @@ public static class ApiGroupExtension
             .RequireAuthorization()
             .WithTags("Security Guard")
             .WithDisplayName("Security Guard Endpoints");
+
+    public static RouteGroupBuilder UserGroup(this IEndpointRouteBuilder app) =>
+        app.MapGroup("api/user")
+            .RequireAuthorization()
+            .WithTags("User")
+            .WithDisplayName("User Endpoints");
 }

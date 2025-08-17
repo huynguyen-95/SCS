@@ -23,7 +23,6 @@ public static class Login
                 .WithDescription("Allows users to log in using their employee number.")
                 .Produces(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status400BadRequest)
-                .WithTags("Authentication")
                 .WithOpenApi(options =>
                 {
                     options.OperationId = "LoginUser";

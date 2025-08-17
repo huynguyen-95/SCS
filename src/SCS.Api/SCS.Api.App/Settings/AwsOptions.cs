@@ -10,4 +10,5 @@ public class AwsOptions
     public required string AccessKey { get; set; }
     public required string SecretKey { get; set; }
     public required string QueueUrl { get; set; }
+    public required string BucketName { get; set; }
 }

@@ -42,6 +42,8 @@ public static class RegisterInfrastructureExtension
             return new AmazonSimpleEmailServiceClient(creds, region);
         });
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
+        services.AddScoped<IUploadFileService, UploadFileService>();
     }
 
     private static void RegisterRequestHandlers(IServiceCollection services)

@@ -9,4 +9,11 @@ public static class Constants
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         WriteIndented = true
     };
+
+    public static class AppClaims
+    {
+        public const string EmpNo = "emp-no";
+        public const string IsAdmin = "is-admin";
+        public const string Role = "role";
+    }
 }

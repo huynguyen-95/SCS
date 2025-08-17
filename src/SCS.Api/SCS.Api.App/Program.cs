@@ -16,6 +16,8 @@ builder.Services.ConfigureAuthorization(builder.Configuration);
 builder.Services.AddMemoryCache();
 builder.Services.AddSignalR();
 
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
