@@ -1,5 +1,5 @@
 export interface Premise {
-    id: string;
+    id: number;
     name: string;
     // Add other premise properties as needed
 }

@@ -3,8 +3,9 @@
 
     <form (ngSubmit)="onSubmit()" #alarmForm="ngForm">
         <div class="form-group">
-            <label for="premiseId">Premise Id:</label>
-            <input type="number" id="premiseId" name="premiseId" [(ngModel)]="premiseId" required class="form-control">
+            <label for="premiseId">Premise:</label>
+            <p-select [options]="premises()" [(ngModel)]="selectedPremise" optionLabel="name"
+                [ngModelOptions]="{standalone: true}" placeholder="Select a premise" />
         </div>
 
         <div class="form-group">
