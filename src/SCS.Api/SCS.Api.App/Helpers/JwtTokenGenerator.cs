@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SCS.Api.App.Settings;
 using SCS.Api.Domain;
 
 namespace SCS.Api.App.Helpers;
@@ -10,15 +11,6 @@ namespace SCS.Api.App.Helpers;
 public interface IJwtTokenGenerator
 {
     string GenerateToken(User user);
-}
-
-public class JwtSettings
-{
-    public const string SectionName = "JwtSettings";
-    public required string Secret { get; init; } = null!;
-    public required int ExpiryMinutes { get; init; }
-    public required string Issuer { get; init; } = null!;
-    public required string Audience { get; init; } = null!;
 }
 
 

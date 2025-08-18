@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using SCS.Api.App.Helpers;
+using SCS.Api.App.Settings;
 
 namespace SCS.Api.App.Extensions;
 
