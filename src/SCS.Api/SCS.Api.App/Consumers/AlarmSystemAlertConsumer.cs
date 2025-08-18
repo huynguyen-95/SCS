@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Amazon;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using Microsoft.AspNetCore.SignalR;
@@ -16,16 +15,17 @@ public class AlarmSystemAlertConsumer : BackgroundService
     private readonly string _queueUrl;
     private readonly IHubContext<AlarmSystemHub> _hubContext;
 
-    public AlarmSystemAlertConsumer(IOptions<AwsOptions> awsOptions, IHubContext<AlarmSystemHub> hubContext)
+    public AlarmSystemAlertConsumer(
+        IOptions<AwsOptions> awsOptions,
+        IHubContext<AlarmSystemHub> hubContext,
+        IAmazonSQS sqsClient)
     {
         ArgumentNullException.ThrowIfNull(awsOptions, nameof(awsOptions));
         ArgumentNullException.ThrowIfNull(hubContext, nameof(hubContext));
+        ArgumentNullException.ThrowIfNull(sqsClient, nameof(sqsClient));
 
         _queueUrl = awsOptions.Value.QueueUrl;
-        _sqsClient = new AmazonSQSClient(
-            awsOptions.Value.AccessKey,
-            awsOptions.Value.SecretKey,
-            RegionEndpoint.GetBySystemName(awsOptions.Value.Region));
+        _sqsClient = sqsClient;
         _hubContext = hubContext;
     }
 
