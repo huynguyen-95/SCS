@@ -1,5 +1,3 @@
-using System;
-
 namespace SCS.Api.App.Services;
 
 public interface ICurrentUserAccessor
