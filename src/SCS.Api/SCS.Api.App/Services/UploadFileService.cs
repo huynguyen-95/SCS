@@ -17,16 +17,16 @@ public class UploadFileService : IUploadFileService
     private readonly string _bucketName;
     private readonly string _region;
 
-    public UploadFileService(IOptions<AwsOptions> options)
+    public UploadFileService(IOptions<AwsOptions> options, IAmazonS3 s3Client)
     {
+        ArgumentNullException.ThrowIfNull(options, nameof(options));
+        ArgumentNullException.ThrowIfNull(s3Client, nameof(s3Client));
+
         var awsOptions = options.Value;
+
         _bucketName = awsOptions.BucketName;
         _region = awsOptions.Region;
-
-        _s3Client = new AmazonS3Client(awsOptions.AccessKey, awsOptions.SecretKey, new AmazonS3Config
-        {
-            RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName(awsOptions.Region)
-        });
+        _s3Client = s3Client;
     }
 
     public async Task<ErrorOr<string>> UploadFileAsync(IFormFile file, CancellationToken cancellationToken)

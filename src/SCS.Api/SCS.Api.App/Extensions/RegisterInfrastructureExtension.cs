@@ -1,6 +1,7 @@
 using System.Reflection;
 using Amazon;
 using Amazon.Runtime;
+using Amazon.S3;
 using Amazon.SimpleEmail;
 using SCS.Api.App.Abstraction.Messaging;
 using SCS.Api.App.Consumers;
@@ -14,12 +15,8 @@ public static class RegisterInfrastructureExtension
 {
     public static void ConfigureInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<AwsOptions>(configuration.GetSection(AwsOptions.ConfigurationSection));
-
-        services.AddOptions<AwsOptions>()
-            .Bind(configuration.GetSection(AwsOptions.ConfigurationSection))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
+        RegisterRequestHandlers(services);
+        RegisterAWSComponents(services, configuration);
 
         // Configure JWT
         services.AddOptions<JwtSettings>()
@@ -28,19 +25,9 @@ public static class RegisterInfrastructureExtension
             .ValidateOnStart();
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
-        RegisterRequestHandlers(services);
-
         // SQS Consumers
         services.AddHostedService<AlarmSystemAlertConsumer>();
 
-        services.AddSingleton<IAmazonSimpleEmailService>(_ =>
-        {
-            var awsSettings = configuration.GetSection(AwsOptions.ConfigurationSection).Get<AwsOptions>();
-            var region = RegionEndpoint.GetBySystemName(awsSettings.Region);
-            var creds = new BasicAWSCredentials(awsSettings.AccessKey, awsSettings.SecretKey);
-
-            return new AmazonSimpleEmailServiceClient(creds, region);
-        });
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
         services.AddScoped<IUploadFileService, UploadFileService>();
@@ -68,5 +55,32 @@ public static class RegisterInfrastructureExtension
                 services.AddScoped(handlerInterface, handler.Type);
             }
         }
+    }
+
+    private static void RegisterAWSComponents(IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<AwsOptions>(configuration.GetSection(AwsOptions.ConfigurationSection));
+        var awsSettings = configuration.GetSection(AwsOptions.ConfigurationSection).Get<AwsOptions>();
+
+        services.AddOptions<AwsOptions>()
+            .Bind(configuration.GetSection(AwsOptions.ConfigurationSection))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        services.AddSingleton<IAmazonSimpleEmailService>(_ =>
+        {
+            var region = RegionEndpoint.GetBySystemName(awsSettings.Region);
+            var creds = new BasicAWSCredentials(awsSettings.AccessKey, awsSettings.SecretKey);
+
+            return new AmazonSimpleEmailServiceClient(creds, region);
+        });
+
+        services.AddScoped<IAmazonS3>(_ =>
+        {
+            return new AmazonS3Client(awsSettings.AccessKey, awsSettings.SecretKey, new AmazonS3Config
+            {
+                RegionEndpoint = RegionEndpoint.GetBySystemName(awsSettings.Region)
+            });
+        });
     }
 }
