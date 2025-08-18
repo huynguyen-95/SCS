@@ -3,6 +3,7 @@ using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.SimpleEmail;
+using Amazon.SQS;
 using SCS.Api.App.Abstraction.Messaging;
 using SCS.Api.App.Consumers;
 using SCS.Api.App.Helpers;
@@ -17,20 +18,28 @@ public static class RegisterInfrastructureExtension
     {
         RegisterRequestHandlers(services);
         RegisterAWSComponents(services, configuration);
+        RegisterJWTComponents(services, configuration);
+        RegisterApplicationServices(services);
+    }
 
-        // Configure JWT
-        services.AddOptions<JwtSettings>()
-            .Bind(configuration.GetSection(JwtSettings.SectionName))
-            .ValidateDataAnnotations()
-            .ValidateOnStart();
-        services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-
+    private static void RegisterApplicationServices(IServiceCollection services)
+    {
         // SQS Consumers
         services.AddHostedService<AlarmSystemAlertConsumer>();
 
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
         services.AddScoped<IUploadFileService, UploadFileService>();
+    }
+
+    private static void RegisterJWTComponents(IServiceCollection services, IConfiguration configuration)
+    {
+        // Configure JWT
+        services.AddOptions<JwtSettings>()
+            .Bind(configuration.GetSection(JwtSettings.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+        services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
     }
 
     private static void RegisterRequestHandlers(IServiceCollection services)
@@ -81,6 +90,14 @@ public static class RegisterInfrastructureExtension
             {
                 RegionEndpoint = RegionEndpoint.GetBySystemName(awsSettings.Region)
             });
+        });
+
+        services.AddScoped<IAmazonSQS>(_ =>
+        {
+            return new AmazonSQSClient(
+                awsSettings.AccessKey,
+                awsSettings.SecretKey,
+                RegionEndpoint.GetBySystemName(awsSettings.Region));
         });
     }
 }

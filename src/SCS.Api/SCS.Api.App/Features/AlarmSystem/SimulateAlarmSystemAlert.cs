@@ -55,17 +55,15 @@ public class SimulateAlarmSystemAlert
         private readonly string _queueUrl;
         private readonly IValidator<Command> _validator;
 
-        public Handler(IValidator<Command> validator, IOptions<AwsOptions> awsOptions)
+        public Handler(IValidator<Command> validator, IOptions<AwsOptions> awsOptions, IAmazonSQS sqsClient)
         {
             ArgumentNullException.ThrowIfNull(validator, nameof(validator));
             ArgumentNullException.ThrowIfNull(awsOptions, nameof(awsOptions));
+            ArgumentNullException.ThrowIfNull(sqsClient, nameof(sqsClient));
 
             _validator = validator;
             _queueUrl = awsOptions.Value.QueueUrl;
-            _sqsClient = new AmazonSQSClient(
-                awsOptions.Value.AccessKey,
-                awsOptions.Value.SecretKey,
-                RegionEndpoint.GetBySystemName(awsOptions.Value.Region));
+            _sqsClient = sqsClient;
         }
 
         public async Task<ErrorOr<Unit>> Handle(Command request, CancellationToken cancellationToken)
