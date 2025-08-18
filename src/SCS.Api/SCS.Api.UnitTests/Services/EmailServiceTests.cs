@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using SCS.Api.App.Services;
 
-namespace SCS.Api.UnitTests.Features.Services;
+namespace SCS.Api.UnitTests.Services;
 
 public class EmailServiceTests
 {

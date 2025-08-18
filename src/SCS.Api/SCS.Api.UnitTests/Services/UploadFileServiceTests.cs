@@ -8,7 +8,7 @@ using SCS.Api.App.Services;
 using SCS.Api.App.Settings;
 using System.Net;
 
-namespace SCS.Api.UnitTests.Features.Services;
+namespace SCS.Api.UnitTests.Services;
 
 public class UploadFileServiceTests
 {
