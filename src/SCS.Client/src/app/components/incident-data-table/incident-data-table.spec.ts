@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 import { IncidentDataTable } from './incident-data-table';
 
@@ -8,12 +9,19 @@ describe('IncidentDataTable', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [IncidentDataTable]
+            imports: [IncidentDataTable],
+            providers: [
+                provideZonelessChangeDetection()
+            ]
         })
             .compileComponents();
 
         fixture = TestBed.createComponent(IncidentDataTable);
         component = fixture.componentInstance;
+
+        // Set required input
+        fixture.componentRef.setInput('data', []);
+
         fixture.detectChanges();
     });
 
