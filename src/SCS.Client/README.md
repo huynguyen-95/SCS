@@ -53,9 +53,7 @@ This will compile your project and store the build artifacts in the `dist/` dire
 To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
 ```bash
-yarn test
-# or
-ng test
+yarn test:silent
 ```
 
 ## Running tests with code coverage
@@ -63,7 +61,7 @@ ng test
 To generate code coverage reports along with tests:
 
 ```bash
-yarn test --code-coverage --browsers=ChromeHeadless --watch=false
+yarn test:coverage
 # or
 ng test --code-coverage --browsers=ChromeHeadless --watch=false
 ```
