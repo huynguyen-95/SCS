@@ -2,6 +2,7 @@
 Smart City Surveillance
 
 Demo URL: http://13.212.200.185/scs
+
 Demo URL will be available until 31-10-2025.
 
 Users:
