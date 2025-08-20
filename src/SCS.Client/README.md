@@ -2,29 +2,41 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.4.
 
+## Prerequisites
+
+Before running this project, ensure you have the following installed:
+
+- **Node.js** (version 18 or higher)
+- **Yarn** package manager
+
+To install Yarn globally:
+```bash
+npm install -g yarn
+```
+
+## Environment Configuration
+
+Configure the API endpoint in the `src/app/env.ts` file:
+
+```typescript
+const environment = {
+    apiUrl: 'https://localhost:7236'  // Update this to match your backend API port (SCS.Api)
+}
+```
+
+Make sure the API URL matches your backend server configuration.
+
 ## Development server
 
 To start a local development server, run:
 
 ```bash
+yarn start
+# or
 ng serve
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
 
 ## Building
 
@@ -41,18 +53,22 @@ This will compile your project and store the build artifacts in the `dist/` dire
 To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
 ```bash
+yarn test
+# or
 ng test
 ```
 
-## Running end-to-end tests
+## Running tests with code coverage
 
-For end-to-end (e2e) testing, run:
+To generate code coverage reports along with tests:
 
 ```bash
-ng e2e
+yarn test --code-coverage --browsers=ChromeHeadless --watch=false
+# or
+ng test --code-coverage --browsers=ChromeHeadless --watch=false
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+The coverage report will be displayed in the terminal and generated in the `coverage/` directory.
 
 ## Additional Resources
 
