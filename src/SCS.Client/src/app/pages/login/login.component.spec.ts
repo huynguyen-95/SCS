@@ -32,17 +32,17 @@ describe('LoginComponent', () => {
                 provideHttpClient(),
                 FormBuilder,
                 { provide: AuthService, useValue: authServiceSpy },
-                { provide: MessageService, useValue: messageServiceSpy },
                 { provide: Router, useValue: routerSpy }
             ]
         }).compileComponents();
 
         mockAuthService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
-        mockMessageService = TestBed.inject(MessageService) as jasmine.SpyObj<MessageService>;
         mockRouter = TestBed.inject(Router) as jasmine.SpyObj<Router>;
 
         fixture = TestBed.createComponent(LoginComponent);
         component = fixture.componentInstance;
+        mockMessageService = component['messageService'] as jasmine.SpyObj<MessageService>;
+        spyOn(mockMessageService, 'add');
     });
 
     it('should create', () => {
@@ -101,12 +101,12 @@ describe('LoginComponent', () => {
             await component.onSubmit();
 
             expect(mockAuthService.login).toHaveBeenCalledWith(empNo);
-            expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
             expect(mockMessageService.add).toHaveBeenCalledWith({
                 severity: 'success',
                 summary: 'Success',
                 detail: 'Login successfully!'
             });
+            expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
         });
 
         it('should show error message on login failure', async () => {
@@ -117,12 +117,12 @@ describe('LoginComponent', () => {
             await component.onSubmit();
 
             expect(mockAuthService.login).toHaveBeenCalledWith(empNo);
-            expect(mockRouter.navigate).not.toHaveBeenCalled();
             expect(mockMessageService.add).toHaveBeenCalledWith({
                 severity: 'error',
                 summary: 'Error',
                 detail: 'Wrong user emp-no'
             });
+            expect(mockRouter.navigate).not.toHaveBeenCalled();
         });
 
         it('should handle invalid form submission gracefully', async () => {
