@@ -1,8 +1,8 @@
-interface LoginResponse {
+export interface LoginResponse {
     token: string;
 }
 
-interface ErrorResponse {
+export interface ErrorResponse {
     message: string;
     statusCode: number;
 }

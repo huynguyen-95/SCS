@@ -8,7 +8,9 @@
     "build": "ng build",
     "build:production": "ng build --configuration production --base-href /scs/",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:silent": "ng test --watch=false --browsers=ChromeHeadless",
+    "test:coverage": "ng test --watch=false --browsers=ChromeHeadless --code-coverage"
   },
   "prettier": {
     "overrides": [

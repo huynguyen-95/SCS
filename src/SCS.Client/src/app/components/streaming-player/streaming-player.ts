@@ -7,16 +7,13 @@ import HlsJs from 'hls.js';
   styleUrl: './streaming-player.scss',
   standalone: false,
 })
-export class StreamingPlayer implements OnInit, AfterViewInit {
+export class StreamingPlayer implements AfterViewInit {
   public sourceUrl: string = 'https://scs-assessment-bucket.s3.ap-southeast-1.amazonaws.com/fl1-1/playlist.m3u8';
   public showError: WritableSignal<boolean> = signal(false);
   public id = input.required<number>();
 
   get videoId(): string {
     return `player-${this.id()}`;
-  }
-
-  ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {

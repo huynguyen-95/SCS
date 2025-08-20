@@ -5,6 +5,7 @@ import { Observable, tap, catchError, throwError } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import environment from '../../env';
 import { UserInfo } from '../../models/user-info.model';
+import { ErrorResponse, LoginResponse } from '../../models/auth-response.model';
 
 @Injectable({
   providedIn: 'root'
