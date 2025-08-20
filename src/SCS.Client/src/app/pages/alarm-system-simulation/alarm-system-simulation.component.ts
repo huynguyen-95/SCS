@@ -39,7 +39,7 @@ export class AlarmSystemSimulationComponent implements OnInit {
     }
 
     onSubmit(): void {
-        if (!this.selectedPremise || !this.message) {
+        if (!this.selectedPremise || !this.message()) {
             return;
         }
 

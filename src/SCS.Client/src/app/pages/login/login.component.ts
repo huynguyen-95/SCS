@@ -24,7 +24,6 @@ import { animate, style, transition, trigger } from '@angular/animations';
 		CheckboxModule,
 		ToastModule
 	],
-	providers: [MessageService],
 	animations: [
 		trigger('fadeInUp', [
 			transition(':enter', [
