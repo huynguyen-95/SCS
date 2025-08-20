@@ -84,7 +84,7 @@ public static class RegisterInfrastructureExtension
             return new AmazonSimpleEmailServiceClient(creds, region);
         });
 
-        services.AddScoped<IAmazonS3>(_ =>
+        services.AddSingleton<IAmazonS3>(_ =>
         {
             return new AmazonS3Client(awsSettings.AccessKey, awsSettings.SecretKey, new AmazonS3Config
             {
@@ -92,7 +92,7 @@ public static class RegisterInfrastructureExtension
             });
         });
 
-        services.AddScoped<IAmazonSQS>(_ =>
+        services.AddSingleton<IAmazonSQS>(_ =>
         {
             return new AmazonSQSClient(
                 awsSettings.AccessKey,
