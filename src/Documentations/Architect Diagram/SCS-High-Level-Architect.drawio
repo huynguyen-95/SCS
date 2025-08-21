@@ -136,7 +136,7 @@
           <mxGeometry x="991" y="450" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="EWM_O6KXLkX-DM_iflqE-59" value="API Server" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="590" y="600" width="120" height="20" as="geometry" />
+          <mxGeometry x="590" y="850" width="120" height="20" as="geometry" />
         </mxCell>
         <mxCell id="EWM_O6KXLkX-DM_iflqE-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.524;entryY=0.016;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="EWM_O6KXLkX-DM_iflqE-39" target="EWM_O6KXLkX-DM_iflqE-58">
           <mxGeometry relative="1" as="geometry" />
@@ -151,7 +151,7 @@
           <mxGeometry x="511.5" y="530" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="EWM_O6KXLkX-DM_iflqE-69" value="AWS" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1010" y="200" width="110" height="20" as="geometry" />
+          <mxGeometry x="1010" y="510" width="110" height="20" as="geometry" />
         </mxCell>
         <mxCell id="EWM_O6KXLkX-DM_iflqE-84" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="EWM_O6KXLkX-DM_iflqE-74" target="EWM_O6KXLkX-DM_iflqE-30">
           <mxGeometry relative="1" as="geometry" />
@@ -167,6 +167,15 @@
         </mxCell>
         <mxCell id="EWM_O6KXLkX-DM_iflqE-92" value="&amp;nbsp;Elastic" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="1025" y="660" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EWM_O6KXLkX-DM_iflqE-93" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#0080F0;shadow=0;dashed=0;shape=mxgraph.ios7.icons.bell;" vertex="1" parent="1">
+          <mxGeometry x="1009" y="59" width="24" height="23.099999999999998" as="geometry" />
+        </mxCell>
+        <mxCell id="EWM_O6KXLkX-DM_iflqE-95" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="EWM_O6KXLkX-DM_iflqE-94" target="EWM_O6KXLkX-DM_iflqE-50">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EWM_O6KXLkX-DM_iflqE-94" value="Alarm System" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="991" y="79" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
