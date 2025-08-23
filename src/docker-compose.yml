@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  scs-api:
+    build:
+      context: ./SCS.Api
+      dockerfile: SCS.Api.App/Dockerfile
+    container_name: scs-api
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - AWS__Region=${AWS_REGION:-us-east-1}
+      - AWS__AccessKey=${AWS_ACCESS_KEY}
+      - AWS__SecretKey=${AWS_SECRET_KEY}
+      - AWS__QueueUrl=${AWS_QUEUE_URL}
+      - AWS__BucketName=${AWS_BUCKET_NAME}
+      - ConnectionStrings__DefaultConnection=${CONNECTION_STRING}
+    networks:
+      - scs-network
+    restart: unless-stopped
+
+  scs-client:
+    build:
+      context: ./SCS.Client
+      dockerfile: Dockerfile
+    container_name: scs-client
+    ports:
+      - "4200:4200"
+    environment:
+      - NGINX_PORT=4200
+    networks:
+      - scs-network
+    restart: unless-stopped
+    depends_on:
+      - scs-api
+
+networks:
+  scs-network:
+    driver: bridge
+
+volumes:
+  scs-data:
