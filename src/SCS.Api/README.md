@@ -179,6 +179,78 @@ dotnet publish SCS.Api.App --configuration Release --output ./publish
 dotnet publish SCS.Api.App/SCS.Api.App.csproj --configuration Release --output "D:\Projects\PublishApps\SCS-Api"
 ```
 
+## Docker Deployment
+
+### Prerequisites for Docker
+- **Docker Desktop** - Download from [Docker](https://www.docker.com/products/docker-desktop/)
+- Ensure Docker is running on your system
+
+### Building the Docker Image
+
+#### Build from Solution Root (Recommended)
+```bash
+# Navigate to the solution root directory (contains both SCS.Api.App and SCS.Api.Domain)
+cd /path/to/Smart-City-Surveillance/src/SCS.Api
+
+# Build the Docker image using the Dockerfile in SCS.Api.App
+docker build -f SCS.Api.App/Dockerfile -t scs-api-app .
+```
+
+### Running the Docker Container
+
+#### Basic Run (Development Environment)
+```bash
+# Run with default settings (Development environment with Scalar API docs)
+docker run -d -p 8080:8080 -p 8081:8081 --name scs-api-app scs-api-app
+```
+
+#### Run with Custom Environment Variables
+```bash
+# Override specific configuration values at runtime
+docker run -d -p 8080:8080 -p 8081:8081 \
+  -e JwtSettings__Secret="your-custom-jwt-secret" \
+  -e ConnectionStrings__DefaultConnection="your-custom-db-connection" \
+  -e AWS__Region="us-west-2" \
+  -e AWS__BucketName="your-custom-bucket" \
+  --name scs-api-app scs-api-app
+```
+
+### Accessing the Dockerized Application
+
+Once the container is running, you can access:
+
+- **API Base URL**: http://localhost:8080
+- **API Documentation (Development only)**: http://localhost:8080/scalar/v1
+- **OpenAPI JSON**: http://localhost:8080/openapi/v1.json
+- **SignalR Hub**: ws://localhost:8080/hubs/alarm-system
+
+### Docker Configuration Details
+
+The Dockerfile is configured with:
+- **Environment**: Development (enables Scalar API documentation)
+- **Ports**: 8080 (HTTP) and 8081 (HTTPS)
+- **Configuration Override**: Environment variables override `appsettings.json` values
+- **Multi-stage Build**: Optimized for production deployment
+
+#### Environment Variables in Docker
+
+The following environment variables are pre-configured in the Docker image and can be overridden:
+
+```bash
+# AWS Configuration
+AWS__Region=ap-southeast-1
+AWS__AccessKey=<your-access-key>
+AWS__SecretKey=<your-secret-key>
+AWS__QueueUrl=<your-queue-url>
+AWS__BucketName=<your-bucket-name>
+
+# Database Configuration
+ConnectionStrings__DefaultConnection=<your-connection-string>
+
+# Application Environment
+ASPNETCORE_ENVIRONMENT=Development
+```
+
 ## Features
 
 - **Authentication & Authorization**: JWT-based authentication system

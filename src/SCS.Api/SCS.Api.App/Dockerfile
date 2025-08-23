@@ -1,30 +1,31 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+COPY ["SCS.Api.App/SCS.Api.App.csproj", "SCS.Api.App/"]
+COPY ["SCS.Api.Domain/SCS.Api.Domain.csproj", "SCS.Api.Domain/"]
+RUN dotnet restore "SCS.Api.App/SCS.Api.App.csproj"
+COPY . .
+WORKDIR "/src/SCS.Api.App"
+RUN dotnet publish "SCS.Api.App.csproj" -c Debug -o /app/publish /p:UseAppHost=false
 
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-USER $APP_UID
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
+COPY --from=build /app/publish .
+COPY SCS.Api.App/appsettings.json .
+COPY SCS.Api.App/appsettings.Development.json .
 
+# Environment configuration
+ENV ASPNETCORE_ENVIRONMENT=Development
 
-# This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["SCS.Api.App/SCS.Api.App.csproj", "SCS.Api.App/"]
-RUN dotnet restore "./SCS.Api.App/SCS.Api.App.csproj"
-COPY . .
-WORKDIR "/src/SCS.Api.App"
-RUN dotnet build "./SCS.Api.App.csproj" -c $BUILD_CONFIGURATION -o /app/build
+# Override appsettings.json placeholder values
+ENV AWS__Region=<AWS_REGION>
+ENV AWS__AccessKey=<YOUR_ACCESS_KEY>
+ENV AWS__SecretKey=<YOUR_SECRET_KEY>
+ENV AWS__QueueUrl=<QUEUE_URL>
+ENV AWS__BucketName=<YOUR_BUCKET_NAME>
+ENV ConnectionStrings__DefaultConnection=<YOUR_CONNECTION_STRING>
 
-# This stage is used to publish the service project to be copied to the final stage
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./SCS.Api.App.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "SCS.Api.App.dll"]
