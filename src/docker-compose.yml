@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  scs-database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    container_name: scs-database
+    ports:
+      - "5432:5432"
+    volumes:
+      - scs-db-data:/var/lib/postgresql/data
+    networks:
+      - scs-network
+    restart: unless-stopped
+
   scs-api:
     build:
       context: ./SCS.Api
@@ -20,6 +33,8 @@ services:
     networks:
       - scs-network
     restart: unless-stopped
+    depends_on:
+      - scs-database
 
   scs-client:
     build:
@@ -41,4 +56,4 @@ networks:
     driver: bridge
 
 volumes:
-  scs-data:
+  scs-db-data:
